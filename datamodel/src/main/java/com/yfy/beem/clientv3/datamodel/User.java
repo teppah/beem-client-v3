@@ -5,20 +5,21 @@ import org.slf4j.LoggerFactory;
 
 import java.net.InetAddress;
 import java.security.*;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
+import java.util.Objects;
 
 /**
- * Representation of an User
+ * Representation of an User with the appropriate keys.
  */
 public class User {
+    // logger
     private static final Logger log = LoggerFactory.getLogger(User.class);
+
     // == constants ==
     private static final int KEY_SIZE = 2048;
     private static final String ALGORITHM = "RSA";
 
     // == fields ==
-    private Long id;
+    private final Long id;
     private String name;
 
     private final PublicKey publicKey;
@@ -46,12 +47,30 @@ public class User {
                 '}';
     }
 
+    // equals for id
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id.equals(user.id);
+    }
+
+    // hash code for id
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
     public static Builder builder() {
         return new Builder();
     }
 
+    /**
+     * Builder for {@link User}. This is the way to create a new user.
+     * */
     public static class Builder {
-
+        // logger
         private static final Logger log = LoggerFactory.getLogger(Builder.class);
 
         private Long id;
@@ -87,13 +106,46 @@ public class User {
 
         public User build() {
             if (keyPair == null) {
-                throw new IllegalArgumentException("key pair cannot be null");
+                throw new IllegalArgumentException("keyPair cannot be null");
+            }
+            if (id == null) {
+                throw new IllegalArgumentException("id cannot be null");
             }
             User user = new User(id, name, keyPair.getPublic(), keyPair.getPrivate(), ipAddress);
             log.debug("building new user {}", user);
             return user;
         }
+    }
 
+    /*
+    * ===== getters and setters =====
+    * */
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public PublicKey getPublicKey() {
+        return publicKey;
+    }
+
+    public PrivateKey getPrivateKey() {
+        return privateKey;
+    }
+
+    public InetAddress getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(InetAddress ipAddress) {
+        this.ipAddress = ipAddress;
     }
 }
