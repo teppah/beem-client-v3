@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -50,7 +51,7 @@ public class UiMainApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Beem Chat");
-        Scene scene = new Scene(root, 800,800);
+        Scene scene = new Scene(root, 1280,720);
         primaryStage.setScene(scene);
         log.info("showing scene {}", scene);
         primaryStage.show();

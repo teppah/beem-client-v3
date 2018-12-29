@@ -6,7 +6,7 @@ open module apiaccess {
     requires spring.context;
     requires spring.beans;
 
-    requires datamodel;
+    requires transitive datamodel;
 
     exports com.yfy.beem.clientv3.apiaccess;
 }
