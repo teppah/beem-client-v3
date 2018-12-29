@@ -1,6 +1,6 @@
 package com.yfy.beem.clientv3.apiaccess.service;
 
-import com.yfy.beem.clientv3.apiaccess.mappings.ApiConstants;
+import com.yfy.beem.clientv3.apiaccess.util.ApiConstants;
 import com.yfy.beem.clientv3.datamodel.User;
 import retrofit2.Call;
 import retrofit2.http.GET;
