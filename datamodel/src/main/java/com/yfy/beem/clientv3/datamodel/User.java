@@ -1,6 +1,7 @@
 package com.yfy.beem.clientv3.datamodel;
 
 import com.yfy.beem.clientv3.crypto.CryptoConstants;
+import com.yfy.beem.clientv3.crypto.CryptoUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,18 +95,8 @@ public class User {
 
         public Builder generateKeyPair() {
             // create a key pair generator
-            try {
-                KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(CryptoConstants.ALGORITHM);
-                keyPairGenerator.initialize(CryptoConstants.KEY_SIZE);
-
-                keyPair = keyPairGenerator.genKeyPair();
-
-                log.debug("generated keypair {}", keyPair);
-                return this;
-            } catch (NoSuchAlgorithmException e) {
-                log.error("NoSuchAlgorithmException: '{}', please check spelling of algorithm", e);
-                return null;
-            }
+            keyPair = CryptoUtils.generateKeyPair();
+            return this;
         }
 
         public Builder withKeyPair(KeyPair keyPair) {

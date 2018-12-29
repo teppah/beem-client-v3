@@ -77,6 +77,7 @@ public final class CryptoUtils {
 
     /**
      * Generates a keypair.
+     * @return a newly generated {@link KeyPair}
      * */
     public static KeyPair generateKeyPair() {
         return gen.generateKeyPair();
