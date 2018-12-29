@@ -13,7 +13,7 @@
     <top>
         <MenuBar fx:id="menuBar">
             <Menu text="Menu 1" fx:id="menu">
-                <MenuItem fx:id="testItem" text="Sample, test click"/>
+                <MenuItem fx:id="testItem" text="Sample, test click" onAction="#testClick"/>
             </Menu>
         </MenuBar>
     </top>

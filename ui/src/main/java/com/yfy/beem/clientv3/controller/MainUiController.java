@@ -24,5 +24,9 @@ public class MainUiController {
         log.info("main controller initialized, {}", this);
     }
 
+    public void testClick() {
+        log.info("clicked, something happened");
+    }
+
 
 }
