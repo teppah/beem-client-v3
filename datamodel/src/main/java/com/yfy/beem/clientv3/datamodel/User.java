@@ -21,19 +21,16 @@ public class User {
     private String name;
 
     private final PublicKey publicKey;
-    private final PrivateKey privateKey;
 
     private InetAddress ipAddress;
 
-    private User(Long id, String name, PublicKey publicKey, PrivateKey privateKey, InetAddress ipAddress) {
+    private User(Long id, String name, PublicKey publicKey, InetAddress ipAddress) {
         this.id = id;
         this.name = name;
         this.publicKey = publicKey;
-        this.privateKey = privateKey;
         this.ipAddress = ipAddress;
         log.debug("created new user {}", this.toString());
         log.debug("publicKey format = ", publicKey.getFormat());
-        log.debug("privateKey format = ", privateKey.getFormat());
     }
 
     @Override
@@ -42,7 +39,6 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", publicKey=" + publicKey +
-                ", privateKey=" + privateKey +
                 ", ipAddress=" + ipAddress +
                 '}';
     }
@@ -75,7 +71,7 @@ public class User {
 
         private Long id;
         private String name;
-        private KeyPair keyPair;
+        private PublicKey publicKey;
         private InetAddress ipAddress;
 
         public Builder id(Long id) {
@@ -93,25 +89,20 @@ public class User {
             return this;
         }
 
-        public Builder generateKeyPair() {
-            // create a key pair generator
-            keyPair = CryptoUtils.generateKeyPair();
+        public Builder publicKey(PublicKey key) {
+            this.publicKey = key;
             return this;
         }
 
-        public Builder withKeyPair(KeyPair keyPair) {
-            this.keyPair = keyPair;
-            return this;
-        }
 
         public User build() {
-            if (keyPair == null) {
-                throw new IllegalArgumentException("keyPair cannot be null");
+            if (publicKey == null) {
+                throw new IllegalArgumentException("publicKey cannot be null");
             }
             if (id == null) {
                 throw new IllegalArgumentException("id cannot be null");
             }
-            User user = new User(id, name, keyPair.getPublic(), keyPair.getPrivate(), ipAddress);
+            User user = new User(id, name, publicKey, ipAddress);
             log.debug("building new user {}", user);
             return user;
         }
@@ -135,10 +126,6 @@ public class User {
 
     public PublicKey getPublicKey() {
         return publicKey;
-    }
-
-    public PrivateKey getPrivateKey() {
-        return privateKey;
     }
 
     public InetAddress getIpAddress() {
