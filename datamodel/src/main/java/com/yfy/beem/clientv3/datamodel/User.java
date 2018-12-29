@@ -34,6 +34,8 @@ public class User {
         this.privateKey = privateKey;
         this.ipAddress = ipAddress;
         log.debug("created new user {}", this.toString());
+        log.debug("publicKey format = ", publicKey.getFormat());
+        log.debug("privateKey format = ", privateKey.getFormat());
     }
 
     @Override
@@ -93,15 +95,20 @@ public class User {
             return this;
         }
 
-        public Builder generateKeyPair() throws GeneralSecurityException {
+        public Builder generateKeyPair() {
             // create a key pair generator
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
-            keyPairGenerator.initialize(KEY_SIZE);
+            try {
+                KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
+                keyPairGenerator.initialize(KEY_SIZE);
 
-            keyPair = keyPairGenerator.genKeyPair();
+                keyPair = keyPairGenerator.genKeyPair();
 
-            log.debug("generated keypair {}", keyPair);
-            return this;
+                log.debug("generated keypair {}", keyPair);
+                return this;
+            } catch (NoSuchAlgorithmException e) {
+                log.error("NoSuchAlgorithmException: '{}', please check spelling of algorithm", e);
+                return null;
+            }
         }
 
         public User build() {
