@@ -10,4 +10,5 @@ public class PropertyName {
     public static final String ID = "id";
     public static final String NAME = "name";
     public static final String PUBLIC_KEY = "publicKey";
+    public static final String IP_ADDR = "ipAddress";
 }
