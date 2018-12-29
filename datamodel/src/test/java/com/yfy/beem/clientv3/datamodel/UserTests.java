@@ -1,6 +1,7 @@
 package com.yfy.beem.clientv3.datamodel;
 import static org.junit.Assert.*;
 
+import com.yfy.beem.clientv3.crypto.CryptoUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +26,7 @@ public class UserTests {
         final Long id = r.nextLong();
         final InetAddress ipAddr = InetAddress.getByName("1.0.0.1");
         User user = User.builder()
-                .generateKeyPair()
+                .publicKey(CryptoUtils.generateKeyPair().getPublic())
                 .name(name)
                 .id(id)
                 .ipAddress(ipAddr)
@@ -34,7 +35,6 @@ public class UserTests {
         assertEquals(name, user.getName());
         assertEquals(ipAddr, user.getIpAddress());
         assertNotNull(user.getPublicKey());
-        assertNotNull(user.getPrivateKey());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -43,7 +43,7 @@ public class UserTests {
     }
     @Test(expected = IllegalArgumentException.class)
     public void builderNoIdSpecifiedTest() {
-        User.builder().generateKeyPair().build();
+        User.builder().publicKey(CryptoUtils.generateKeyPair().getPublic()).build();
     }
 
     @Test(expected = IllegalArgumentException.class)
