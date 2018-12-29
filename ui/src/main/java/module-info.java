@@ -7,6 +7,12 @@ open module ui {
     requires spring.boot;
     requires spring.boot.autoconfigure;
     requires spring.context;
+    requires spring.beans;
+
+    requires slf4j.api;
+
+    requires apiaccess;
+    requires java.sql;
 
     // lombok
     // requires static lombok;
@@ -14,6 +20,6 @@ open module ui {
 
     exports com.yfy.beem.clientv3;
 
-    requires slf4j.api;
+
 
 }
