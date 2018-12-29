@@ -3,11 +3,13 @@ package com.yfy.beem.clientv3.crypto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import javax.crypto.*;
 import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.RSAPrivateKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 
 /**
  * Utility class for cryptography-related functions
@@ -18,10 +20,20 @@ public final class CryptoUtils {
 
     // == private fields ==
     private static final KeyPairGenerator gen = createKeyPairGenerator();
+    private static final KeyFactory kf = createKeyFactory();
 
     private static KeyPairGenerator createKeyPairGenerator() {
         try {
             return KeyPairGenerator.getInstance(CryptoConstants.ALGORITHM);
+        } catch (NoSuchAlgorithmException e) {
+            log.error("ERROR INITIALIZING CryptoUtils: {} ; please check crypto configuration", e);
+            return null;
+        }
+    }
+
+    private static KeyFactory createKeyFactory() {
+        try {
+            return KeyFactory.getInstance(CryptoConstants.ALGORITHM);
         } catch (NoSuchAlgorithmException e) {
             log.error("ERROR INITIALIZING CryptoUtils: {} ; please check crypto configuration", e);
             return null;
@@ -83,4 +95,47 @@ public final class CryptoUtils {
         return gen.generateKeyPair();
     }
 
+    /**
+     * Returns a base64 encoded version of the key for convenience
+     * */
+    public static String keyToString(Key key) {
+        byte[] bytes = key.getEncoded();
+        return Base64.getEncoder()
+                .encodeToString(bytes);
+    }
+
+    /**
+     * Parses a {@link String} to a {@link PrivateKey}.
+     * */
+    public static PrivateKey stringToPrivateKey(String privateKeyContent) {
+        try {
+            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(
+                    Base64.getDecoder().decode(privateKeyContent)
+            );
+            PrivateKey priv = kf.generatePrivate(keySpec);
+            return priv;
+
+        }  catch (InvalidKeySpecException e) {
+            log.error("invalid key spec: {}", e);
+        }
+        return null;
+    }
+
+    /**
+     * Parses a {@link String} to a {@link PublicKey}.
+     * */
+
+    public static PublicKey stringToPublicKey(String publicKeyContent) {
+        try {
+            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(
+                    Base64.getDecoder().decode(publicKeyContent)
+            );
+            PublicKey publicKey = kf.generatePublic(keySpec);
+            return publicKey;
+
+        }  catch (InvalidKeySpecException e) {
+            log.error("invalid key spec: {}", e);
+        }
+        return null;
+    }
 }
