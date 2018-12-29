@@ -28,6 +28,10 @@ public class Message {
         return originatedFrom;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     /**
      * Static builder class for the {@link Message} class.
      */
@@ -37,6 +41,7 @@ public class Message {
         private LocalDateTime timeCreated;
 
         public Builder() {
+
         }
 
         public Builder byUser(User user) {
@@ -55,7 +60,7 @@ public class Message {
         }
 
         public Builder withTextContent(String textContent) {
-            this.messageContent = new TextMessageContent(textContent);
+            messageContent = new TextMessageContent(textContent);
             return this;
         }
 

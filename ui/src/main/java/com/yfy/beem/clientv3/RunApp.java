@@ -9,5 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RunApp {
     public static void main(String[] args) {
         UiMainApplication.main(args);
+
     }
 }
