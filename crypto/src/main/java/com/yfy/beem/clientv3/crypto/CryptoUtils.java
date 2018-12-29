@@ -30,7 +30,7 @@ public final class CryptoUtils {
 
     // do not let anyone instantiate this class
     private CryptoUtils() {
-        throw new UnsupportedOperationException("what are you doing lol");
+        throw new UnsupportedOperationException("what are you doing lol, you can't do this");
     }
 
     /**
