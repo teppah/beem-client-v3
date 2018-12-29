@@ -1,5 +1,6 @@
 package com.yfy.beem.clientv3;
 
+import com.yfy.beem.clientv3.controller.MainUiController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,12 +9,17 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScans;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * Main UI application
+ * Main UI application, run from here
  * */
-//@SpringBootApplication
+@SpringBootApplication
 public class UiMainApplication extends Application {
     private static final Logger log = LoggerFactory.getLogger(UiMainApplication.class);
 
@@ -23,13 +29,16 @@ public class UiMainApplication extends Application {
     @Override
     public void init() throws Exception {
         super.init();
+//        new SpringApplicationBuilder().main(UiMainApplication.class).build().run()
         ctx = SpringApplication.run(UiMainApplication.class);
+        log.info("finished initializing ctx {}", ctx);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+//        System.out.println(ctx.getBean(MainUiController.class));
         // set the loader's controller factory to the context
-//        loader.setControllerFactory(ctx::getBean); not necessary with spring boot? idk
+        loader.setControllerFactory(ctx::getBean);
         root = loader.load();
-        log.info("loaded root, {}", root);
-        log.info("controller = {}", (Object) loader.getController());
+        log.debug("loaded root, {}", root);
+        log.debug("controller = {}", (Object) loader.getController());
     }
 
     @Override
@@ -48,10 +57,6 @@ public class UiMainApplication extends Application {
     }
 
     public static void main(String[] args) {
-        /*
-        * DO NOT RUN THIS MAIN METHOD DIRECTLY, AS SPRING WILL THROW A SQLEXCEPTION FOR SOME REASON!
-        * RUN THIS CLASS' MAIN METHOD FROM A PROXY CLASS
-        * */
         launch(args);
     }
 }
