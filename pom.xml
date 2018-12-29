@@ -8,6 +8,7 @@
         <module>datamodel</module>
         <module>crypto</module>
         <module>msg-core</module>
+        <module>api-access</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
