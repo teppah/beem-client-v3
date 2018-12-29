@@ -39,7 +39,16 @@ public class UserTests {
 
     @Test(expected = IllegalArgumentException.class)
     public void builderNoKeyGenerationTest() {
-        User user = User.builder().build();
+        User.builder().id(r.nextLong()).build();
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void builderNoIdSpecifiedTest() {
+        User.builder().generateKeyPair().build();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void builderNoIdAndKeysSpecified() {
+        User.builder().build();
     }
 
 }

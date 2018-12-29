@@ -10,6 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>datamodel</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.yfy.beem</groupId>
+            <artifactId>crypto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 
 </project>

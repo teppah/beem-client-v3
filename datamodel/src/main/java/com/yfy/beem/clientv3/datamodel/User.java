@@ -1,5 +1,6 @@
 package com.yfy.beem.clientv3.datamodel;
 
+import com.yfy.beem.clientv3.crypto.CryptoConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,10 +14,6 @@ import java.util.Objects;
 public class User {
     // logger
     private static final Logger log = LoggerFactory.getLogger(User.class);
-
-    // == constants ==
-    private static final int KEY_SIZE = 2048;
-    private static final String ALGORITHM = "RSA";
 
     // == fields ==
     private final Long id;
@@ -98,8 +95,8 @@ public class User {
         public Builder generateKeyPair() {
             // create a key pair generator
             try {
-                KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
-                keyPairGenerator.initialize(KEY_SIZE);
+                KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(CryptoConstants.ALGORITHM);
+                keyPairGenerator.initialize(CryptoConstants.KEY_SIZE);
 
                 keyPair = keyPairGenerator.genKeyPair();
 
@@ -109,6 +106,11 @@ public class User {
                 log.error("NoSuchAlgorithmException: '{}', please check spelling of algorithm", e);
                 return null;
             }
+        }
+
+        public Builder withKeyPair(KeyPair keyPair) {
+            this.keyPair = keyPair;
+            return this;
         }
 
         public User build() {
