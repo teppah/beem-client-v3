@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,14 +13,14 @@ import org.springframework.stereotype.Component;
  * methods that wrap lists inside Observable stuff.
  * */
 @Component
-public class UserHelper {
-    private static final Logger log = LoggerFactory.getLogger(UserHelper.class);
+public class UserApiHelper {
+    private static final Logger log = LoggerFactory.getLogger(UserApiHelper.class);
 
     private UserApiAccessor userApiAccessor;
 
     private ObservableList<User> currentUsers;
 
-    public UserHelper(UserApiAccessor userApiAccessor) {
+    public UserApiHelper(UserApiAccessor userApiAccessor) {
         this.userApiAccessor = userApiAccessor;
         currentUsers = FXCollections.observableArrayList(
                 userApiAccessor.getAllUsers()
