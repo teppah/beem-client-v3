@@ -4,6 +4,7 @@ import com.yfy.beem.clientv3.apiaccess.UserApiAccessor;
 import com.yfy.beem.clientv3.crypto.CryptoUtils;
 import com.yfy.beem.clientv3.datamodel.User;
 import com.yfy.beem.clientv3.util.UserApiHelper;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -41,7 +42,7 @@ public class MainUiController {
     @FXML
     private Menu connectionMenu;
     @FXML
-    private MenuItem connectMenuItem;
+    private MenuItem closeButton;
     // main table for contacts
     @FXML
     private TableView<User> msgTableView;
@@ -74,30 +75,12 @@ public class MainUiController {
 
         //set text to display in msgTableView
         msgTableView.setItems(fxHelper.getObservableCurrentUsers());
-
-
         log.info("main controller initialized, {}", this);
     }
 
-    public void showConnectDialog() {
-        log.info("showing connection dialog");
-
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Are you sure?", ButtonType.OK, ButtonType.NO);
-        log.info("dialogPane = {}", alert.getDialogPane());
-
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent()) {
-            log.info("shoenice");
-            log.info("result = {}", result.get());
-        }
-
-
-
-
+    public void shutdownApplication() {
+        Platform.exit();
 
     }
-
 
 }

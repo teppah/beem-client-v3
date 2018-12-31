@@ -16,8 +16,8 @@
 <BorderPane prefHeight="900.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yfy.beem.clientv3.controller.MainUiController">
     <top>
         <MenuBar fx:id="menuBar">
-            <Menu fx:id="connectionMenu" text="Connect">
-                <MenuItem fx:id="connectMenuItem" onAction="#showConnectDialog" text="Connect dialog" />
+            <Menu fx:id="connectionMenu" text="Actions">
+                <MenuItem fx:id="closeButton" onAction="#shutdownApplication" text="Close" />
             </Menu>
         </MenuBar>
     </top>
