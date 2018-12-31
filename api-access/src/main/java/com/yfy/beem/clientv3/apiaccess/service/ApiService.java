@@ -26,7 +26,7 @@ public interface ApiService {
      * Register an user on the service. Only use to register self. Does not
      * care about the IP address, as it is the server that will resolve that
      * */
-    @POST
+    @POST(ApiConstants.PUT_USER)
     Call<Void> registerSelf(@Query(value = "id") Long id,
                             @Query(value = "name") String name,
                             @Query(value = "publicKey") String publicKey);
