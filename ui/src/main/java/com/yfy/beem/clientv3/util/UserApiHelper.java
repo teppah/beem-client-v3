@@ -33,11 +33,8 @@ public class UserApiHelper {
     }
 
     public void update() {
-        userApiAccessor.getAllUsers().forEach(user -> {
-            if (!currentUsers.contains(user)) {
-                currentUsers.add(user);
-            }
-        });
+        currentUsers.clear();
+        currentUsers.addAll(userApiAccessor.getAllUsers());
     }
 
 }
