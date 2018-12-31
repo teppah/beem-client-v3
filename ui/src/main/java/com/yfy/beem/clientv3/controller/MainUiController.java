@@ -63,13 +63,13 @@ public class MainUiController {
     }
 
     public void initialize() throws UnknownHostException {
-        userApiAccessor.registerSelf(User
-                .builder()
-                .id(new Random().nextLong())
-                .name("Testing User 2")
-                .publicKey(CryptoUtils.generateKeyPair().getPublic())
-                .ipAddress(InetAddress.getByName("45.42.79.206"))
-                .build());
+//        userApiAccessor.registerSelf(User
+//                .builder()
+//                .id(new Random().nextLong())
+//                .name("Testing User 2")
+//                .publicKey(CryptoUtils.generateKeyPair().getPublic())
+//                .ipAddress(InetAddress.getByName("45.42.79.206"))
+//                .build());
         // disable message selection
         chatHistoryTableView.setSelectionModel(null);
 
@@ -80,7 +80,6 @@ public class MainUiController {
 
     public void shutdownApplication() {
         Platform.exit();
-
     }
 
 }
