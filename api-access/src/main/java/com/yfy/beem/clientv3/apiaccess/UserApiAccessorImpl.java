@@ -1,6 +1,5 @@
 package com.yfy.beem.clientv3.apiaccess;
 
-import com.google.common.collect.ImmutableList;
 import com.yfy.beem.clientv3.apiaccess.service.ApiService;
 import com.yfy.beem.clientv3.apiaccess.util.PropertyName;
 import com.yfy.beem.clientv3.crypto.CryptoUtils;
@@ -13,6 +12,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -38,7 +38,7 @@ public class UserApiAccessorImpl implements UserApiAccessor {
         try {
             List<User> body = executeGetUsers(Map.of());
             log.debug("body = {}", body);
-            return ImmutableList.copyOf(body);
+            return Collections.unmodifiableList(body);
         } catch (IOException e) {
             log.error("error in getAllUsers(): {}, please check configuration", e);
             return null;

@@ -8,9 +8,9 @@ open module apiaccess {
 
     requires slf4j.api;
 
-    requires com.google.common;
-
-    requires transitive datamodel;
+//    requires com.google.common;
+    requires crypto;
+    requires datamodel;
 
     exports com.yfy.beem.clientv3.apiaccess;
 }
