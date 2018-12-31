@@ -97,4 +97,18 @@ public class UserApiAccessorImpl implements UserApiAccessor {
         log.info("called executeGetUsers(), success = {}, code = {}", response.isSuccessful(), response.code());
         return response.body();
     }
+
+    @Override
+    public boolean deleteUser(User user) {
+        log.info("deleting user {}", user);
+        Call<Void> call = service.deleteUserWithId(user.getId());
+        try {
+            Response<Void> response = call.execute();
+            log.info("called, success = ", response.isSuccessful());
+            return response.isSuccessful();
+        } catch (IOException e) {
+            log.error("error in deleteUser(): {}, please check configuration", e);
+            return false;
+        }
+    }
 }

@@ -3,10 +3,7 @@ package com.yfy.beem.clientv3.apiaccess.service;
 import com.yfy.beem.clientv3.apiaccess.util.ApiConstants;
 import com.yfy.beem.clientv3.datamodel.User;
 import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
+import retrofit2.http.*;
 
 import java.util.List;
 import java.util.Map;
@@ -30,4 +27,11 @@ public interface ApiService {
     Call<Void> registerSelf(@Query(value = "id") Long id,
                             @Query(value = "name") String name,
                             @Query(value = "publicKey") String publicKey);
+
+
+    /**
+     * Delete an user from the API service. Only use to debug.
+     * */
+    @DELETE(ApiConstants.DELETE_USER)
+    Call<Void> deleteUserWithId(@Query(value = "id") Long id);
 }

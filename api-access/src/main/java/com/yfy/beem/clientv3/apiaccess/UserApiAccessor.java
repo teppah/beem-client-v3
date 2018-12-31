@@ -37,4 +37,11 @@ public interface UserApiAccessor {
      * */
     void registerSelf(User user);
 
+    /**
+     * Delete an {@link User} from the API server. Use sparingly
+     * @param user the {@link User} to delete
+     * @return whether it was successful or not
+     * */
+    boolean deleteUser(User user);
+
 }

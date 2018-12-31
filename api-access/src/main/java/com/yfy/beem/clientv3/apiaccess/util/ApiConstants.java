@@ -14,4 +14,5 @@ public class ApiConstants {
 
     public static final String GET_USERS = API_PREFIX + "users";
     public static final String PUT_USER = API_PREFIX + "users";
+    public static final String DELETE_USER = API_PREFIX + "users";
 }
