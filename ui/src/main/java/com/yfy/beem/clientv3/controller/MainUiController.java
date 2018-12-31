@@ -21,8 +21,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -168,7 +170,29 @@ public class MainUiController {
         inputDialog.setHeaderText("Please enter a name for this session");
         inputDialog.setContentText("Name:");
         Optional<String> result = inputDialog.showAndWait();
-        result.ifPresent(name -> log.info("name entered: {}", name));
+        result.ifPresent(name -> {
+            log.info("name entered: {}", name);
+            if (!name.isBlank()) {
+                try {
+                    User user = User.builder()
+                            .name(name)
+                            .ipAddress(InetAddress.getLocalHost())
+                            .id(new Random().nextLong())
+                            .publicKey(CryptoUtils.generateKeyPair().getPublic())
+                            .build();
+                    log.info("built user {}", user);
+                    userApiAccessor.registerSelf(user);
+                    log.info("posted user");
+                    refreshRegisteredUsers();
+                } catch (IOException e) {
+                    log.error("ERROR, {}", e);
+                }
+            } else {
+                log.info("name is empty");
+            }
+        });
+
+
     }
 
 }
