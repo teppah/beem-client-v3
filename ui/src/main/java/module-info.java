@@ -8,6 +8,7 @@ open module ui {
     requires spring.boot.autoconfigure;
     requires spring.context;
     requires spring.beans;
+    requires spring.core;
 
     requires slf4j.api;
 
