@@ -16,7 +16,7 @@
     <top>
         <MenuBar fx:id="menuBar">
             <Menu fx:id="connectionMenu" text="Connect">
-                <MenuItem fx:id="testItem" onAction="#testClick" text="Connect dialog" />
+                <MenuItem fx:id="connectMenuItem" onAction="#showConnectDialog" text="Connect dialog" />
             </Menu>
         </MenuBar>
     </top>
@@ -34,7 +34,7 @@
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
-            <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="chatHistoryTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <columns>
                 <TableColumn prefWidth="75.0" text="Incoming" />
                 <TableColumn prefWidth="75.0" text="Sent" />
