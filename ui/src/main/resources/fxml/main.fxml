@@ -92,7 +92,7 @@
                         <Font size="20.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#refreshRegisteredUsers" text="Post self">
+                  <Button mnemonicParsing="false" onAction="#handlePostToApi" text="Post self">
                      <font>
                         <Font size="20.0" />
                      </font>

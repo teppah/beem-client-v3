@@ -162,4 +162,13 @@ public class MainUiController {
 
     }
 
+    public void handlePostToApi() {
+        TextInputDialog inputDialog = new TextInputDialog();
+        inputDialog.setTitle("Choose your name");
+        inputDialog.setHeaderText("Please enter a name for this session");
+        inputDialog.setContentText("Name:");
+        Optional<String> result = inputDialog.showAndWait();
+        result.ifPresent(name -> log.info("name entered: {}", name));
+    }
+
 }
