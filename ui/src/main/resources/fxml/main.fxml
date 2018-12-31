@@ -27,8 +27,8 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
          <columns>
-            <TableColumn prefWidth="93.0" text="Users" />
-            <TableColumn prefWidth="156.0" text="Chat" />
+            <TableColumn fx:id="userNameColumn" prefWidth="93.0" text="Users" />
+            <TableColumn fx:id="latestChatColumn" prefWidth="156.0" text="Chat" />
          </columns></TableView>
     </left>
    <center>
