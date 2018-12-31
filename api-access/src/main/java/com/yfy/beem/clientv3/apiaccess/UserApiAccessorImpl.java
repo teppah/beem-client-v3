@@ -37,7 +37,7 @@ public class UserApiAccessorImpl implements UserApiAccessor {
     public List<User> getAllUsers() {
         try {
             List<User> body = executeGetUsers(Map.of());
-            log.debug("body = {}", body);
+//            log.debug("body = {}", body);
             return Collections.unmodifiableList(body);
         } catch (IOException e) {
             log.error("error in getAllUsers(): {}, please check configuration", e);
