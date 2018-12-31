@@ -52,7 +52,7 @@ public class UiMainApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Beem Chat");
-        Scene scene = new Scene(root, 1280,720);
+        Scene scene = new Scene(root, 1440,900);
         primaryStage.setScene(scene);
         log.info("showing scene {}", scene);
         primaryStage.show();
