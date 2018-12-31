@@ -7,7 +7,7 @@ import retrofit2.Retrofit;
 
 /**
  * Class used to access the REST api endpoints.
- * */
+ */
 @Service
 public class UserApiAccessor {
     private ApiService service;
