@@ -3,8 +3,12 @@ package com.yfy.beem.clientv3.controller;
 import com.yfy.beem.clientv3.apiaccess.UserApiAccessor;
 import com.yfy.beem.clientv3.apiaccess.UserApiAccessorImpl;
 import com.yfy.beem.clientv3.datamodel.User;
+import com.yfy.beem.clientv3.util.UserHelper;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,7 @@ public class MainUiController {
     private ConfigurableApplicationContext ctx;
     private Environment env;
     private UserApiAccessor userApiAccessor;
+    private UserHelper fxHelper;
 
     // ==== javafx nodes ====
     @FXML
@@ -36,19 +41,36 @@ public class MainUiController {
     // main table for contacts
     @FXML
     private TableView<User> msgTableView;
+    @FXML
+    private TableColumn<User, String> userNameColumn;
+    @FXML
+    private TableColumn<User, String> latestChatColumn;
     // table for chat history
     @FXML
     private TableView<String> chatHistoryTableView;
 
     @Autowired
-    public MainUiController(ConfigurableApplicationContext ctx,UserApiAccessor userApiAccessor, Environment env) {
+    public MainUiController(ConfigurableApplicationContext ctx,UserApiAccessor userApiAccessor, Environment env, UserHelper fxHelper) {
         this.ctx = ctx;
         this.userApiAccessor = userApiAccessor;
         this.env = env;
+        this.fxHelper = fxHelper;
     }
 
     public void initialize() {
+        // disable message selection
         chatHistoryTableView.setSelectionModel(null);
+
+        //set text to display in msgTableView
+        msgTableView.setItems(fxHelper.getObservableCurrentUsers());
+        userNameColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<User, String> param) {
+                User user = param.getValue();
+                return new SimpleStringProperty(user.getName());
+            }
+        });
+
         log.info("main controller initialized, {}", this);
     }
 
