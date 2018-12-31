@@ -10,7 +10,7 @@ open module apiaccess {
 
 //    requires com.google.common;
     requires crypto;
-    requires datamodel;
+    requires transitive datamodel;
 
     exports com.yfy.beem.clientv3.apiaccess;
 }

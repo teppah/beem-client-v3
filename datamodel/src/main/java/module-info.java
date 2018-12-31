@@ -1,6 +1,6 @@
 open module datamodel {
     requires slf4j.api;
-    requires transitive crypto;
+    requires crypto;
 
     exports com.yfy.beem.clientv3.datamodel;
 }
