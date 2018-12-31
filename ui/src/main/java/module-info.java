@@ -13,6 +13,7 @@ open module ui {
     requires slf4j.api;
 
     requires apiaccess;
+    requires crypto;
     requires java.sql;
 
 
