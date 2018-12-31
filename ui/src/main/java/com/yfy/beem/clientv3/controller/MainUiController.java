@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -81,33 +82,18 @@ public class MainUiController {
     public void showConnectDialog() {
         log.info("showing connection dialog");
 
-        Dialog<User> dialog = new Dialog<>();
 
-        TableView<User> activeUsersTable = new TableView<>();
-        activeUsersTable.setItems(fxHelper.getObservableCurrentUsers());
-
-        TableColumn<User, String> userId = new TableColumn<>();
-        userId.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getId().toString()));
-
-        TableColumn<User, String> userName = new TableColumn<>();
-        userName.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<User, String> param) {
-                return new SimpleStringProperty(param.getValue().getName());
-            }
-        });
-        TableColumn<User, String> ipAddr = new TableColumn<>();
-        ipAddr.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<User, String> param) {
-                return new SimpleStringProperty(param.getValue().getIpAddress().toString());
-            }
-        });
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Are you sure?", ButtonType.OK, ButtonType.NO);
+        log.info("dialogPane = {}", alert.getDialogPane());
 
 
-        activeUsersTable.getColumns().addAll(userId, userName, ipAddr);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent()) {
+            log.info("shoenice");
+            log.info("result = {}", result.get());
+        }
 
-        dialog.show();
+
 
 
 
