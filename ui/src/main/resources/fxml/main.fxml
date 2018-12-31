@@ -14,15 +14,15 @@
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yfy.beem.clientv3.controller.MainUiController">
     <top>
-        <MenuBar>
-            <Menu text="Connect">
-                <MenuItem onAction="#testClick" text="Connect dialog" />
+        <MenuBar fx:id="menuBar">
+            <Menu fx:id="connectionMenu" text="Connect">
+                <MenuItem fx:id="testItem" onAction="#testClick" text="Connect dialog" />
             </Menu>
         </MenuBar>
     </top>
 
     <left>
-        <TableView prefHeight="571.0" prefWidth="251.0">
+        <TableView fx:id="msgTableView" prefHeight="571.0" prefWidth="251.0">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
