@@ -28,7 +28,17 @@ public class UserHelper {
         );
     }
 
-    public ObservableList<User> getCurrentUsers() {
+    public ObservableList<User> getObservableCurrentUsers() {
+        update();
+        return currentUsers;
+    }
+
+    public void update() {
+        userApiAccessor.getAllUsers().forEach(user -> {
+            if (!currentUsers.contains(user)) {
+                currentUsers.add(user);
+            }
+        });
     }
 
 }
