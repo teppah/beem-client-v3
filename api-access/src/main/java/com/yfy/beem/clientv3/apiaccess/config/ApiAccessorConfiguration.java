@@ -12,12 +12,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Configuration class for the various dependencies of {@link com.yfy.beem.clientv3.apiaccess.UserApiAccessor}
+ * Configuration class for the various dependencies of {@link com.yfy.beem.clientv3.apiaccess.UserApiAccessorImpl}
  * */
 @Configuration
 public class ApiAccessorConfiguration {
     @Bean
-    public ApiService retrofit() {
+    public ApiService retrofitApiService() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(User.class, new UserTypeAdapter())
                 .create();
