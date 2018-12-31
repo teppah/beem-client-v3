@@ -45,6 +45,7 @@ public class UiMainApplication extends Application {
     @Override
     public void stop() throws Exception {
         ctx.stop();
+
         log.info("ctx {} stopped", ctx);
     }
 
