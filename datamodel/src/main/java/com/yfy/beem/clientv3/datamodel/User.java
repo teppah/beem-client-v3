@@ -12,7 +12,7 @@ import java.util.Objects;
 /**
  * Representation of an User with the appropriate keys.
  */
-public class User {
+public class User implements Comparable<User> {
     // logger
     private static final Logger log = LoggerFactory.getLogger(User.class);
 
@@ -43,6 +43,11 @@ public class User {
                 '}';
     }
 
+    @Override
+    public int compareTo(User o) {
+        return this.id.compareTo(o.id);
+    }
+
     // equals for id
     @Override
     public boolean equals(Object o) {
@@ -51,6 +56,8 @@ public class User {
         User user = (User) o;
         return id.equals(user.id);
     }
+
+
 
     // hash code for id
     @Override
