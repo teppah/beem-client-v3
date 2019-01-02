@@ -38,7 +38,7 @@ public class User implements Comparable<User> {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", publicKey=" + publicKey +
+                ", publicKey=..." +
                 ", ipAddress=" + ipAddress +
                 '}';
     }
@@ -110,7 +110,7 @@ public class User implements Comparable<User> {
                 throw new IllegalArgumentException("id cannot be null");
             }
             User user = new User(id, name, publicKey, ipAddress);
-            log.debug("building new user {}", user);
+            log.debug("building new user {}", user.toString());
             return user;
         }
     }
