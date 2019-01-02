@@ -16,6 +16,7 @@ import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
@@ -164,14 +165,16 @@ public class MainUiController {
 
     }
 
-    public void handlePostToApi() {
+    public void handlePostSelfToApi() {
         TextInputDialog inputDialog = new TextInputDialog();
         inputDialog.setTitle("Choose your name");
         inputDialog.setHeaderText("Please enter a name for this session");
         inputDialog.setContentText("Name:");
         Optional<String> result = inputDialog.showAndWait();
-        result.ifPresent(name -> {
+        if (result.isPresent()) {
+            String name = result.get();
             log.info("name entered: {}", name);
+            // if there was something entered in the field
             if (!name.isBlank()) {
                 try {
                     User user = User.builder()
@@ -181,16 +184,37 @@ public class MainUiController {
                             .publicKey(CryptoUtils.generateKeyPair().getPublic())
                             .build();
                     log.info("built user {}", user);
-                    userApiAccessor.registerSelf(user);
-                    log.info("posted user");
-                    refreshRegisteredUsers();
+                    // if this doesn't throw an exception, it means that
+                    // in this session, no previous users have been registered yet.
+                    // if that is the case, continue the flow
+                    boolean success = fxHelper.setCurrentUser(user);
+
+                    if (success) {
+                        userApiAccessor.registerSelf(user);
+                        log.info("posted user");
+                        refreshRegisteredUsers();
+
+                        // registering this user as a bean to the ApplicationContext
+                        // get the bean factory of ctx
+                        ConfigurableListableBeanFactory beanFactory = ctx.getBeanFactory();
+                        // register the bean
+                        beanFactory.registerSingleton(beanFactory.getClass().getCanonicalName(), user);
+                    } else {
+                        log.info("user has already been set");
+                        Alert alert = new Alert(
+                                Alert.AlertType.INFORMATION,
+                                "User has already been set",
+                                ButtonType.CLOSE);
+                        alert.show();
+                    }
                 } catch (IOException e) {
                     log.error("ERROR, {}", e);
                 }
             } else {
+                // nothing was entered
                 log.info("name is empty");
             }
-        });
+        }
 
 
     }
