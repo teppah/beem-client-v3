@@ -50,7 +50,7 @@ public class User implements Comparable<User> {
 
     // equals for id
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
@@ -61,11 +61,11 @@ public class User implements Comparable<User> {
 
     // hash code for id
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Objects.hash(id);
     }
 
-    public static Builder builder() {
+    public final static Builder builder() {
         return new Builder();
     }
 
