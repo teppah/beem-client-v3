@@ -160,21 +160,21 @@ public class MainUiController {
             if (!name.isBlank()) {
                 try {
                     KeyPair keyPair = CryptoUtils.generateKeyPair();
-                    SelfUser user = SelfUser.selfBuilder()
+                    SelfUser self = SelfUser.selfBuilder()
                             .name(name)
                             .id(new Random().nextLong())
                             .ipAddress(InetAddress.getLocalHost())
                             .publicKey(keyPair.getPublic())
                             .privateKey(keyPair.getPrivate())
                             .build();
-                    log.info("built user {}", user);
+                    log.info("built user {}", self);
                     // if this doesn't throw an exception, it means that
                     // in this session, no previous users have been registered yet.
                     // if that is the case, continue the flow
-                    boolean success = fxHelper.setCurrentUser(user);
+                    boolean success = fxHelper.setCurrentUser(self);
 
                     if (success) {
-                        userApiAccessor.registerSelf(user);
+                        userApiAccessor.registerSelf(self);
                         log.info("posted user");
                         refreshRegisteredUsers();
 
@@ -182,7 +182,7 @@ public class MainUiController {
                         // get the bean factory of ctx
                         ConfigurableListableBeanFactory beanFactory = ctx.getBeanFactory();
                         // register the bean
-                        beanFactory.registerSingleton(beanFactory.getClass().getCanonicalName(), user);
+                        beanFactory.registerSingleton(self.getClass().getCanonicalName(), self);
                     } else {
                         log.info("user has already been set");
                         Alert alert = new Alert(
