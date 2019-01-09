@@ -24,7 +24,7 @@ public class User implements Comparable<User> {
 
     private InetAddress ipAddress;
 
-    private User(Long id, String name, PublicKey publicKey, InetAddress ipAddress) {
+    protected User(Long id, String name, PublicKey publicKey, InetAddress ipAddress) {
         this.id = id;
         this.name = name;
         this.publicKey = publicKey;
@@ -65,7 +65,7 @@ public class User implements Comparable<User> {
         return Objects.hash(id);
     }
 
-    public final static Builder builder() {
+    public static Builder builder() {
         return new Builder();
     }
 
