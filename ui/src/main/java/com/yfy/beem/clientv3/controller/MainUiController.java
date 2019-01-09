@@ -97,40 +97,20 @@ public class MainUiController {
         msgTableView.setItems(fxHelper.getObservableCurrentUsers());
 
         // setting the contents of apiUsersTable
-        apiIdColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<User, String> param) {
-                return new SimpleStringProperty(
-                        param.getValue().getId().toString()
-                );
-            }
-        });
-        apiNameColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<User, String> param) {
-                return new SimpleStringProperty(
-                        param.getValue().getName()
-                );
-            }
-        });
-        apiIpColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<User, String> param) {
-                return new SimpleStringProperty(
-                        param.getValue().getIpAddress().getHostAddress()
-                );
-            }
-        });
-        apiPKeyColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<User, String> param) {
-                return new SimpleStringProperty(
-                        CryptoUtils.keyToString(
-                                param.getValue().getPublicKey()
-                        )
-                );
-            }
-        });
+        apiIdColumn.setCellValueFactory(param -> new SimpleStringProperty(
+                param.getValue().getId().toString()
+        ));
+        apiNameColumn.setCellValueFactory(param -> new SimpleStringProperty(
+                param.getValue().getName()
+        ));
+        apiIpColumn.setCellValueFactory(param -> new SimpleStringProperty(
+                param.getValue().getIpAddress().getHostAddress()
+        ));
+        apiPKeyColumn.setCellValueFactory(param -> new SimpleStringProperty(
+                CryptoUtils.keyToString(
+                        param.getValue().getPublicKey()
+                )
+        ));
         // set items
         apiUsersTable.setItems(fxHelper.getObservableCurrentUsers());
         // set multiselection model
