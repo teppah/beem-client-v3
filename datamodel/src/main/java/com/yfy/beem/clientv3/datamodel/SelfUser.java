@@ -21,7 +21,7 @@ public class SelfUser extends User {
 
 
     public static Builder selfBuilder() {
-        return new Builder();
+        return new SelfUser.Builder();
     }
 
     /**
@@ -64,7 +64,7 @@ public class SelfUser extends User {
         }
 
 
-        public User build() {
+        public SelfUser build() {
             if (publicKey == null) {
                 throw new IllegalArgumentException("publicKey cannot be null");
             }

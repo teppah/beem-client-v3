@@ -2,6 +2,7 @@ package com.yfy.beem.clientv3.controller;
 
 import com.yfy.beem.clientv3.apiaccess.UserApiAccessor;
 import com.yfy.beem.clientv3.crypto.CryptoUtils;
+import com.yfy.beem.clientv3.datamodel.SelfUser;
 import com.yfy.beem.clientv3.datamodel.User;
 import com.yfy.beem.clientv3.util.UserApiHelper;
 import javafx.application.Platform;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.KeyPair;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Optional;
@@ -157,11 +159,13 @@ public class MainUiController {
             // if there was something entered in the field
             if (!name.isBlank()) {
                 try {
-                    User user = User.builder()
+                    KeyPair keyPair = CryptoUtils.generateKeyPair();
+                    SelfUser user = SelfUser.selfBuilder()
                             .name(name)
-                            .ipAddress(InetAddress.getLocalHost())
                             .id(new Random().nextLong())
-                            .publicKey(CryptoUtils.generateKeyPair().getPublic())
+                            .ipAddress(InetAddress.getLocalHost())
+                            .publicKey(keyPair.getPublic())
+                            .privateKey(keyPair.getPrivate())
                             .build();
                     log.info("built user {}", user);
                     // if this doesn't throw an exception, it means that
