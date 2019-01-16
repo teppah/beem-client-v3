@@ -2,33 +2,28 @@ package com.yfy.beem.clientv3.controller;
 
 import com.yfy.beem.clientv3.apiaccess.UserApiAccessor;
 import com.yfy.beem.clientv3.crypto.CryptoUtils;
+import com.yfy.beem.clientv3.datamodel.Conversation;
+import com.yfy.beem.clientv3.datamodel.Message;
 import com.yfy.beem.clientv3.datamodel.SelfUser;
 import com.yfy.beem.clientv3.datamodel.User;
-import com.yfy.beem.clientv3.util.UserApiHelper;
+import com.yfy.beem.clientv3.util.MessagingServiceHelper;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.security.KeyPair;
-import java.security.SecureRandom;
-import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -44,7 +39,7 @@ public class MainUiController {
     private ConfigurableApplicationContext ctx;
     private Environment env;
     private UserApiAccessor userApiAccessor;
-    private UserApiHelper fxHelper;
+    private MessagingServiceHelper fxHelper;
 
     // ==== javafx nodes ====
     @FXML
@@ -55,14 +50,17 @@ public class MainUiController {
     private MenuItem closeButton;
     // main table for contacts
     @FXML
-    private TableView<User> msgTableView;
+    private TableView<Conversation> msgTableView;
     @FXML
-    private TableColumn<User, String> userNameColumn;
+    private TableColumn<Conversation, String> userNameColumn;
     @FXML
-    private TableColumn<User, String> latestChatColumn;
+    private TableColumn<Conversation, String> latestChatColumn;
     // table for chat history
     @FXML
-    private TableView<String> chatHistoryTableView;
+    private TableView<Conversation> chatHistoryTableView;
+    @FXML
+    private TableColumn<Conversation, String> chatTextsColumn;
+
 
     // table for apiUsers
     @FXML
@@ -77,26 +75,16 @@ public class MainUiController {
     private TableColumn<User, String> apiPKeyColumn;
 
     @Autowired
-    public MainUiController(ConfigurableApplicationContext ctx, UserApiAccessor userApiAccessor, Environment env, UserApiHelper fxHelper) {
+    public MainUiController(ConfigurableApplicationContext ctx, UserApiAccessor userApiAccessor, Environment env, MessagingServiceHelper fxHelper) {
         this.ctx = ctx;
         this.userApiAccessor = userApiAccessor;
         this.env = env;
         this.fxHelper = fxHelper;
     }
 
-    public void initialize() throws UnknownHostException {
-//        userApiAccessor.registerSelf(User
-//                .builder()
-//                .id(new Random().nextLong())
-//                .name("Testing User 2")
-//                .publicKey(CryptoUtils.generateKeyPair().getPublic())
-//                .ipAddress(InetAddress.getByName("45.42.79.206"))
-//                .build());
+    public void initialize() {
         // disable message selection
         chatHistoryTableView.setSelectionModel(null);
-
-        //set text to display in msgTableView
-        msgTableView.setItems(fxHelper.getObservableCurrentUsers());
 
         // setting the contents of apiUsersTable
         apiIdColumn.setCellValueFactory(param -> new SimpleStringProperty(
@@ -118,6 +106,25 @@ public class MainUiController {
         // set multiselection model
         apiUsersTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
+        // set name column
+        userNameColumn.setCellValueFactory(param -> new SimpleStringProperty(
+                param.getValue().getRecipient().getName()
+        ));
+        // set message column
+        latestChatColumn.setCellValueFactory(param -> {
+            Conversation conv = param.getValue();
+            // get latest msg
+            Message latest = conv.getAllMessages().get(conv.getAllMessages().size() - 1);
+            String latestChatName = latest.getOriginatedFrom().getName() + ": " + latest.getContent().getText();
+            return new SimpleStringProperty(latestChatName);
+        });
+
+        msgTableView.setItems(fxHelper.getAllConversations());
+
+        // setting the chat history cell value factory
+        chatTextsColumn.setCellValueFactory(param -> {
+            return new SimpleStringProperty(param.getValue().getAllMessages().get(0).getContent().getText());
+        });
 
         log.info("main controller initialized, {}", this);
     }
@@ -183,6 +190,9 @@ public class MainUiController {
                         ConfigurableListableBeanFactory beanFactory = ctx.getBeanFactory();
                         // register the bean
                         beanFactory.registerSingleton(self.getClass().getCanonicalName(), self);
+
+                        fxHelper.initializeConversations();
+                        msgTableView.refresh();
                     } else {
                         log.info("user has already been set");
                         Alert alert = new Alert(
@@ -199,8 +209,13 @@ public class MainUiController {
                 log.info("name is empty");
             }
         }
+    }
 
-
+    public void handleShowConversation() {
+        Conversation conv = msgTableView.getSelectionModel().getSelectedItem();
+        if (conv != null) {
+            chatHistoryTableView.setItems(FXCollections.unmodifiableObservableList(conv));
+        }
     }
 
 }
