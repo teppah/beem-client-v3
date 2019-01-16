@@ -35,6 +35,14 @@ public class Conversation {
         return Collections.unmodifiableList(messages);
     }
 
+    public SelfUser getSelf() {
+        return self;
+    }
+
+    public User getRecipient() {
+        return recipient;
+    }
+
     public static Conversation createNewConversation(SelfUser self, User recipient) {
         if (recipient instanceof SelfUser) {
             throw new IllegalArgumentException("recipient cannot be of SelfUser type");
