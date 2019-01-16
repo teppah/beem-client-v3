@@ -7,5 +7,5 @@ public interface MessageContent {
     /**
      * Get a textual representation of the message contents.
      * */
-    String getContent();
+    String getText();
 }

@@ -11,7 +11,7 @@ public class TextMessageContent implements MessageContent {
     }
 
     @Override
-    public String getContent() {
+    public String getText() {
         return content;
     }
 }
