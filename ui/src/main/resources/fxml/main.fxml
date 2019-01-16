@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.BorderPane?>
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -23,7 +23,8 @@
     </top>
 
     <left>
-        <TableView fx:id="msgTableView" prefHeight="871.0" prefWidth="444.0">
+        <TableView fx:id="msgTableView" prefHeight="871.0" prefWidth="444.0"
+                   onMouseClicked="#handleShowConversation">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
@@ -37,8 +38,7 @@
          <center>
             <TableView fx:id="chatHistoryTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn prefWidth="75.0" text="Incoming" />
-                <TableColumn prefWidth="75.0" text="Sent" />
+                <TableColumn prefWidth="75.0" text="Incoming" fx:id="chatTextsColumn" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
