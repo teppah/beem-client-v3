@@ -31,7 +31,7 @@ public class MessagingServiceHelper {
     private ObservableList<Conversation> conversations;
 
     // the user info for the current session
-    private User self;
+    private SelfUser self;
 
     public MessagingServiceHelper(UserApiAccessor userApiAccessor, ConfigurableApplicationContext ctx) {
         this.userApiAccessor = userApiAccessor;
@@ -47,11 +47,12 @@ public class MessagingServiceHelper {
         for (int i = 0; i < currentUsers.size(); i++) {
             User u = currentUsers.get(i);
             Conversation c = Conversation.createNewConversation(
-                    ctx.getBean(SelfUser.class),
+                    self,
                     u
             );
-            c.addMessage(Message.builder().byUser(u).createdNow().withTextContent("Test").build());
-            c.addMessage(Message.builder().byUser(ctx.getBean(SelfUser.class)).createdNow().withTextContent("Test").build());
+            log.info("building new conv with user: {}", u.getName());
+            c.addMessage(Message.builder().byUser(u).createdNow().withTextContent("Test " + i).build());
+            c.addMessage(Message.builder().byUser(self).createdNow().withTextContent("Test " + i).build());
             conversations.add(c);
         }
     }
@@ -66,7 +67,7 @@ public class MessagingServiceHelper {
         currentUsers.addAll(userApiAccessor.getAllUsers());
     }
 
-    public boolean setCurrentUser(User user) {
+    public boolean setCurrentUser(SelfUser user) {
         if (this.self == null) {
             this.self = user;
             log.info("set current user to {}", user);

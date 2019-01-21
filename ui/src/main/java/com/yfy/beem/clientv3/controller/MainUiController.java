@@ -57,9 +57,9 @@ public class MainUiController {
     private TableColumn<Conversation, String> latestChatColumn;
     // table for chat history
     @FXML
-    private TableView<Conversation> chatHistoryTableView;
+    private TableView<Message> chatHistoryTableView;
     @FXML
-    private TableColumn<Conversation, String> chatTextsColumn;
+    private TableColumn<Message, String> chatTextsColumn;
 
 
     // table for apiUsers
@@ -123,7 +123,12 @@ public class MainUiController {
 
         // setting the chat history cell value factory
         chatTextsColumn.setCellValueFactory(param -> {
-            return new SimpleStringProperty(param.getValue().getAllMessages().get(0).getContent().getText());
+            StringBuilder sb = new StringBuilder();
+            sb.append(param.getValue().getOriginatedFrom().getName());
+            sb.append(": ");
+            String msg = param.getValue().getContent().getText();
+            sb.append(msg);
+            return new SimpleStringProperty(sb.toString());
         });
 
         log.info("main controller initialized, {}", this);
@@ -214,7 +219,9 @@ public class MainUiController {
     public void handleShowConversation() {
         Conversation conv = msgTableView.getSelectionModel().getSelectedItem();
         if (conv != null) {
-            chatHistoryTableView.setItems(FXCollections.unmodifiableObservableList(conv));
+            chatHistoryTableView.setItems(FXCollections.unmodifiableObservableList(
+                    FXCollections.observableList(conv.getAllMessages())
+            ));
         }
     }
 
